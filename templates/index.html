@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python Practice Tasks</title>
+
+<style>
+
+:root{
+--beige:#f5f5dc;
+--brown:#3b2f2f;
+--chocolate:#7b3f00;
+--black:#111;
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Segoe UI,Arial,sans-serif;
+}
+
+body{
+background:var(--beige);
+color:var(--black);
+}
+
+/* HEADER */
+
+header{
+background:var(--brown);
+color:white;
+padding:30px;
+text-align:center;
+font-size:28px;
+font-weight:600;
+letter-spacing:1px;
+}
+
+/* SEARCH */
+
+.search-container{
+text-align:center;
+padding:20px;
+}
+
+.search-container input{
+width:60%;
+max-width:500px;
+padding:12px;
+border-radius:30px;
+border:2px solid var(--chocolate);
+outline:none;
+font-size:14px;
+}
+
+/* FILTERS */
+
+.filters{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:10px;
+padding:10px 20px 20px 20px;
+}
+
+.filters button{
+background:var(--chocolate);
+border:none;
+color:white;
+padding:8px 15px;
+border-radius:20px;
+cursor:pointer;
+font-size:13px;
+transition:.3s;
+}
+
+.filters button:hover{
+background:black;
+transform:scale(1.05);
+}
+
+/* GRID */
+
+.container{
+max-width:1200px;
+margin:auto;
+padding:20px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+gap:20px;
+}
+
+/* CARD */
+
+.card{
+background:white;
+border-radius:10px;
+padding:18px;
+border-left:5px solid var(--chocolate);
+box-shadow:0 5px 12px rgba(0,0,0,0.1);
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-6px);
+box-shadow:0 10px 20px rgba(0,0,0,0.2);
+}
+
+.card h3{
+color:var(--chocolate);
+font-size:16px;
+margin-bottom:6px;
+}
+
+.card small{
+color:#555;
+}
+
+.tag{
+display:inline-block;
+margin-top:8px;
+padding:3px 8px;
+border-radius:6px;
+font-size:12px;
+background:var(--brown);
+color:white;
+}
+
+/* FOOTER */
+
+footer{
+margin-top:40px;
+background:var(--brown);
+color:white;
+text-align:center;
+padding:15px;
+font-size:14px;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+Python Practice Tasks
+</header>
+
+<div class="search-container">
+<input type="text" id="search" placeholder="Search tasks...">
+</div>
+
+<div class="filters" id="filters"></div>
+
+<div class="container">
+<div class="grid" id="taskGrid"></div>
+</div>
+
+<footer>
+Python Learning Platform • Beginner → Intermediate Practice
+</footer>
+
+<script>
+
+const topics=[
+"Print","Input","Variables","Data Types","Casting","Strings","Numbers",
+"Operators","List","Tuple","Set","Dictionary",
+"Conditions","Nested Conditions","Loops","Functions","Classes","Random","Projects"
+];
+
+/* TASK DATA */
+
+let tasks=[
+{n:1,t:"Print",title:"Hello World",d:"Print Hello World on screen.",level:"Beginner"},
+{n:2,t:"Print",title:"Personal Info",d:"Print your name age and city.",level:"Beginner"},
+{n:3,t:"Print",title:"Star Triangle",d:"Print triangle pattern using stars.",level:"Beginner"},
+{n:4,t:"Print",title:"Square Pattern",d:"Print a 4x4 square pattern.",level:"Beginner"},
+{n:5,t:"Print",title:"Multiplication Table",d:"Print table of 5 from 1 to 10.",level:"Beginner"},
+{n:6,t:"Input",title:"Greeting Program",d:"Take name input and greet user.",level:"Beginner"},
+{n:7,t:"Input",title:"Sum Calculator",d:"Take two numbers and show sum.",level:"Beginner"},
+{n:8,t:"Input",title:"Age After 10 Years",d:"Input age and show age after 10 years.",level:"Beginner"},
+{n:9,t:"Input",title:"Product Calculator",d:"Multiply two user inputs.",level:"Beginner"},
+{n:10,t:"Input",title:"Average of Numbers",d:"Calculate average of three numbers.",level:"Beginner"},
+
+{n:11,t:"Variables",title:"Store Personal Data",d:"Store name age and city in variables.",level:"Beginner"},
+{n:12,t:"Variables",title:"Swap Two Variables",d:"Swap values of two variables.",level:"Beginner"},
+{n:13,t:"Variables",title:"Shopping Cost",d:"Calculate total cost using price and quantity.",level:"Beginner"},
+{n:14,t:"Variables",title:"Area of Circle",d:"Calculate circle area using radius.",level:"Beginner"},
+{n:15,t:"Variables",title:"Marks Percentage",d:"Calculate percentage from three marks.",level:"Beginner"},
+
+{n:16,t:"Data Types",title:"Identify Type",d:"Print type of variables.",level:"Beginner"},
+{n:17,t:"Data Types",title:"Multiple Types",d:"Create int float string bool variables.",level:"Beginner"},
+{n:18,t:"Data Types",title:"Input Type",d:"Check data type of user input.",level:"Beginner"},
+{n:19,t:"Data Types",title:"Integer to Float",d:"Convert integer to float.",level:"Beginner"},
+{n:20,t:"Data Types",title:"Float to Integer",d:"Convert float to integer.",level:"Beginner"},
+
+{n:21,t:"Casting",title:"String to Integer",d:"Convert string number to integer.",level:"Beginner"},
+{n:22,t:"Casting",title:"Integer to String",d:"Convert integer to string.",level:"Beginner"},
+{n:23,t:"Casting",title:"String Float",d:"Convert string to float.",level:"Beginner"},
+{n:24,t:"Casting",title:"Add String Numbers",d:"Convert strings then add numbers.",level:"Beginner"},
+{n:25,t:"Casting",title:"Age Converter",d:"Convert age string to integer.",level:"Beginner"},
+
+{n:26,t:"Strings",title:"String Length",d:"Find length of string using len.",level:"Beginner"},
+{n:27,t:"Strings",title:"Uppercase",d:"Convert string to uppercase.",level:"Beginner"},
+{n:28,t:"Strings",title:"Lowercase",d:"Convert string to lowercase.",level:"Beginner"},
+{n:29,t:"Strings",title:"Count Vowels",d:"Count vowels in sentence.",level:"Beginner"},
+{n:30,t:"Strings",title:"Reverse String",d:"Reverse user string.",level:"Beginner"},
+
+{n:31,t:"Strings",title:"Palindrome Checker",d:"Check if word is palindrome.",level:"Beginner"},
+{n:32,t:"Strings",title:"Remove Spaces",d:"Remove spaces from string.",level:"Beginner"},
+{n:33,t:"Strings",title:"Replace Word",d:"Replace words in sentence.",level:"Beginner"},
+{n:34,t:"Strings",title:"Substring Check",d:"Check if substring exists.",level:"Beginner"},
+{n:35,t:"Strings",title:"First Last Character",d:"Print first and last character.",level:"Beginner"},
+
+{n:36,t:"Numbers",title:"Even or Odd",d:"Check even or odd number.",level:"Beginner"},
+{n:37,t:"Numbers",title:"Square and Cube",d:"Calculate square and cube.",level:"Beginner"},
+{n:38,t:"Numbers",title:"Factorial",d:"Calculate factorial of number.",level:"Beginner"},
+{n:39,t:"Random",title:"Random Number",d:"Generate random number 1-100.",level:"Beginner"},
+{n:40,t:"Numbers",title:"Power Calculator",d:"Calculate power of number.",level:"Beginner"},
+
+{n:41,t:"Operators",title:"Simple Calculator",d:"Use + - * / operators.",level:"Beginner"},
+{n:42,t:"Operators",title:"Compare Numbers",d:"Compare two numbers.",level:"Beginner"},
+{n:43,t:"Operators",title:"Positive Negative",d:"Check positive or negative.",level:"Beginner"},
+{n:44,t:"Operators",title:"Divisible Check",d:"Check divisible by 5 and 7.",level:"Beginner"},
+{n:45,t:"Operators",title:"Login Validator",d:"Validate username and password.",level:"Beginner"},
+
+{n:46,t:"List",title:"Fruit List",d:"Create list of fruits.",level:"Beginner"},
+{n:47,t:"List",title:"Add Element",d:"Add item to list.",level:"Beginner"},
+{n:48,t:"List",title:"Remove Element",d:"Remove item from list.",level:"Beginner"},
+{n:49,t:"List",title:"Maximum from List",d:"Find maximum number.",level:"Beginner"},
+{n:50,t:"List",title:"Second Maximum",d:"Find second largest number.",level:"Beginner"},
+
+{n:66,t:"Conditions",title:"Maximum Among 3 Numbers",d:"Find largest of three numbers.",level:"Beginner"},
+{n:69,t:"Conditions",title:"Prime Number Checker",d:"Check if number is prime.",level:"Beginner"},
+{n:79,t:"Loops",title:"Fibonacci Series",d:"Print Fibonacci numbers.",level:"Beginner"},
+];
+
+/* PROJECT TASKS */
+
+const projects=[
+"Todo List CLI App",
+"Number Guess Game",
+"Calculator App",
+"Password Generator",
+"Dice Rolling Simulator",
+"Student Management System",
+"Contact Book",
+"Quiz Game",
+"Expense Tracker",
+"Library Management System"
+];
+
+let start=91;
+
+projects.forEach(p=>{
+tasks.push({
+n:start++,
+t:"Projects",
+title:p,
+d:"Build a functional Python program implementing this concept.",
+level:"Intermediate"
+})
+})
+
+/* FILTER BUTTONS */
+
+const filterDiv=document.getElementById("filters");
+
+let allBtn=document.createElement("button");
+allBtn.textContent="All";
+allBtn.onclick=()=>render("All");
+filterDiv.appendChild(allBtn);
+
+topics.forEach(t=>{
+let b=document.createElement("button");
+b.textContent=t;
+b.onclick=()=>render(t);
+filterDiv.appendChild(b);
+});
+
+/* RENDER */
+
+function render(topic="All"){
+const grid=document.getElementById("taskGrid");
+grid.innerHTML="";
+
+let search=document.getElementById("search").value.toLowerCase();
+
+let filtered=tasks.filter(task=>{
+return (topic==="All"||task.t===topic) &&
+(task.title.toLowerCase().includes(search) || task.d.toLowerCase().includes(search))
+})
+
+filtered.forEach(task=>{
+let card=document.createElement("div");
+card.className="card";
+
+card.innerHTML=`
+<h3>Task ${task.n}: ${task.title}</h3>
+<small>Topic: ${task.t}</small>
+<p>${task.d}</p>
+<div class="tag">${task.level}</div>
+`;
+
+grid.appendChild(card);
+});
+}
+
+document.getElementById("search").addEventListener("input",()=>render());
+
+render();
+
+</script>
+
+</body>
+</html>
